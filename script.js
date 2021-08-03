@@ -7,6 +7,7 @@ $(function () {
         return array;
     }
     let gameNineWon = false;
+    let gameTwentyFiveWon = false;
     let goalNine = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let currentNine = [];
     let goalFive = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
@@ -14,36 +15,39 @@ $(function () {
     let currTiles = [];
     let goalTiles = [];
     let currFiveTiles = [];
+    let testing = true;
 
 
 
     let input = document.getElementById('input');
     let image = document.getElementById('testimg');
-    input.addEventListener('change', function () {
+    // input.addEventListener('change', function () {
 
 
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+    //     if (input.files && input.files[0]) {
+    //         var reader = new FileReader();
 
-            reader.readAsDataURL(input.files[0]);
-            reader.onload = function () {
-                //    console.log(reader.result);
-                image.src = reader.result;
-                image.onload = function () {
-                    let tileSize = $('input[name="size"]:checked').val();
-                    if(tileSize == '3') makeNine(image.src);
-                    else if(tileSize == '5') makeTwentyFive(image.src);
+    //         reader.readAsDataURL(input.files[0]);
+    //         reader.onload = function () {
+    //             //    console.log(reader.result);
+    //             image.src = reader.result;
+    //             image.onload = function () {
+    //                 let tileSize = $('input[name="size"]:checked').val();
+    //                 if(tileSize == '3') makeNine(image.src);
+    //                 else if(tileSize == '5') makeTwentyFive(image.src);
 
-                    input.style.visibility = 'hidden';
+    //                 input.style.visibility = 'hidden';
                    
                     
-                }
-            }
-        }
-    })
+    //             }
+    //         }
+    //     }
+    // })
+if(!gameNineWon)  makeNine('./assets/images/illuminati_eye.jpg');
+else(makeTwentyFive);
+
 
     function makeTwentyFive(src) {
-        console.log('making 25');
         let j = 0;
         for (let i = 0; i < 25; i++) {
             let xShift = (750 - (150 * (i % 5))).toString();
@@ -56,11 +60,9 @@ $(function () {
 
         let inversionCount = 1;
         while (inversionCount % 2 != 0) {
-            console.log(inversionCount);
             inversionCount = 0;
             currentFive = [];
             shuffle(goalFive).map((item) => currentFive.push(item));
-            console.log(currentFive);
             goalFive.sort((a, b) => a - b);
             for (let i = 0; i < currentFive.length; i++) {
                 for (let j = i + 1; j < currentFive.length; j++) {
@@ -71,7 +73,6 @@ $(function () {
             }
 
         }
-        console.log(inversionCount);
         $("#img-frame").empty();
         for (let i = 0; i < currentFive.length; i++) {
             let idStr = '#tile' + currentFive[i];
@@ -108,27 +109,21 @@ $(function () {
 
         let inversionCount = 1;
         while (inversionCount % 2 != 0) {
-            console.log(inversionCount);
             inversionCount = 0;
             currentNine = [];
             shuffle(goalNine).map((item) => currentNine.push(item));
             goalNine = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-            console.log(goalNine);
-            console.log(currentNine);
 
             goalNine.sort((a, b) => a - b);
-            console.log(goalNine);
             for (let i = 0; i < currentNine.length - 1; i++) {
                 for (let j = i + 1; j < currentNine.length; j++) {
                     if (currentNine[i] > currentNine[j] && currentNine[i] != 6 && currentNine[j] != 6) {
-                        console.log('inversion: ' + currentNine[i] + ':' + currentNine[j]);
                         inversionCount++;
                     }
                 }
             }
 
         }
-        console.log(inversionCount);
         // console.log( goalNine);
         $("#img-frame").empty();
         for (let i = 0; i < currentNine.length; i++) {
@@ -166,14 +161,9 @@ $(function () {
     function adjacentCheckFive(numstr) {
         numstr.replace('tile', '');
         let num = parseInt(numstr.split("e")[1]);
-        console.log(num);
-        // console.log(currentNine);
         let numIndex = currentFive.indexOf(num);
-        console.log(numIndex);
         let emptyDiv = $(".empty").attr("id");
-        console.log(emptyDiv);
         let emptyIndex = currentFive.indexOf((parseInt(emptyDiv.split('e')[1])));
-        console.log(emptyIndex);
         if (numIndex === emptyIndex) {
             return false;
         }
@@ -182,12 +172,9 @@ $(function () {
         return adjacent;
     }
     function isAdjacent(emptyIndex, clickedIndex, arrLen) {
-        // console.log(emptyIndex, clickedIndex, arrLen);
         let rowLen = Math.sqrt(arrLen);
-        // console.log(rowLen);
         let emptyRowNumber = Math.floor(emptyIndex / rowLen);
         let clickedRowNumber = Math.floor(clickedIndex / rowLen);
-        // console.log(emptyRowNumber);
         if (emptyRowNumber === clickedRowNumber && Math.abs(emptyIndex - clickedIndex) <= 1) {
 
             return true;
@@ -203,10 +190,8 @@ $(function () {
     }
 
     function tileFiveClickHandler() {
-        console.log($(this));
         let id = $(this).attr("id");
-        let isAdjacent = adjacentCheckFive(id);
-        console.log(isAdjacent);
+        let isAdjacent = adjacentCheckFive(id);;
         if (isAdjacent) {
             let emptyDiv = $(".empty");
             let emptyDivId = $(".empty").attr("id");
@@ -217,38 +202,27 @@ $(function () {
             let emptyDivIndex = currentFive.indexOf(parseInt(emptyDivId.split('e')[1]));
             let currentDivNum = parseInt(currIdStr.split('e')[1]);
             let emptyDivNum = parseInt(emptyDivId.split('e')[1]);
-            console.log(emptyDivIndex, currentDivIndex, currentDivNum, emptyDivNum);
 
             //instead of replacewith, just change the offset of the background image to match.
             let backgroundURL = currentDiv.css("background-image");
             let backgroundOffset = currentDiv.css("background-position");
             emptyDiv.css("background-image", backgroundURL).removeClass("empty").css("background-position", backgroundOffset).attr("id", currentDivId);
             currentDiv.css("background-image", "none").addClass("empty").attr("id", emptyDivId);
-            console.log('about to splice again on index');
-            console.log('current div index: ' + currentDivIndex);
-            console.log('empty div index' + emptyDivIndex);
-            console.log('w/ values:');
-            console.log('current div value: ' + currentDivNum);
-            console.log('empty div value' + emptyDivNum);
             currentFive[emptyDivIndex] = currentDivNum;
             currentFive[currentDivIndex] = emptyDivNum;
-            console.log(currentFive);
             let wonGame = gameCheckFive();
             if(wonGame){
-                console.log('game won');
+                // console.log('game won');
+                gameTwentyFiveWon = true;
+                partTwoEnd();
             }
 
         }
 
     }
     function tileClickHandler() {
-        console.log($(this));
-        console.log('in tile click handler')
         let id = $(this).attr("id");
-        console.log(id);
         let isAdjacent = adjacentCheck(id);
-        console.log(currentNine);
-        console.log(isAdjacent);
         if (isAdjacent) {
             let emptyDiv = $(".empty");
             let emptyDivId = $(".empty").attr("id");
@@ -259,34 +233,26 @@ $(function () {
             let emptyDivIndex = currentNine.indexOf((parseInt(emptyDivId[emptyDivId.length - 1])));
             let currentDivNum = parseInt(currIdStr[currIdStr.length - 1]);
             let emptyDivNum = parseInt(emptyDivId[emptyDivId.length - 1]);
-            console.log(emptyDivIndex, currentDivIndex);
 
             //instead of replacewith, just change the offset of the background image to match.
             let backgroundURL = currentDiv.css("background-image");
             let backgroundOffset = currentDiv.css("background-position");
             emptyDiv.css("background-image", backgroundURL).removeClass("empty").css("background-position", backgroundOffset).attr("id", currentDivId);
             currentDiv.css("background-image", "none").addClass("empty").attr("id", emptyDivId);
-            console.log('about to splice again on index');
-            console.log('current div index: ' + currentDivIndex);
-            console.log('empty div index' + emptyDivIndex);
-            console.log('w/ values:');
-            console.log('current div value: ' + currentDivNum);
-            console.log('empty div value' + emptyDivNum);
             currentNine[emptyDivIndex] = currentDivNum;
             currentNine[currentDivIndex] = emptyDivNum;
-            console.log(currentNine);
             let wonGame = gameCheck();
             if (wonGame) {
                 gameReset();
             }
         } else {
-            console.log($("not adjacent"));
+            // console.log($("not adjacent"));
         }
     }
     function gameCheck() {
-        console.log(currentNine, goalNine);
         // gameNineWon = true;
         for (let i = 0; i < currentNine.length; i++) {
+            if(testing) return true;
             if (currentNine[i] != goalNine[i]) {
                 //change back to return false when done checking second game
                 return false;
@@ -297,6 +263,7 @@ $(function () {
         return true;
     }
     function gameCheckFive(){
+        if(testing) return true;
         for( let i=0;i<currentFive.length; i++){
             if(currentFive[i] != goalFive[i]){
                 return false
@@ -310,9 +277,28 @@ $(function () {
         goalNine = [];
         $('#game-win').css('display', 'inline-block');
         $('.close-btn').on('click', ()=>{
-            document.location = document.location;
+            // document.location = document.location;
+            $('#main-banner').text('A second, more intricate design.')
+            $('#tile-frame').empty();
+            $('#game-win').hide();
+            makeTwentyFive('./assets/images/illuminati_eye.jpg');
         })
 
+    }
+    function partTwoEnd(){
+        $('#popup-header').text('Once more the puzzles gears grind into place. The blocks depress and pull away.');
+        $('.close-btn').hide();
+        $('#main-banner').text('An empty vault space, already explored');
+        $("#popup-additional").html('Unfortunately there is nothing obvious in the space within. You may want to <u>Console</u> yourselves with getting out alive. Perhaps <u>log</u> it as a good effort in your adventuring journals.')
+        console.log('game won.')
+        $("#img-frame").empty();
+        $('#tile-frame').empty();
+        $('#game-win').show();
+        const easterEgg = {
+            hint: 'Nintendo',
+            code: 'NDk2ODM1MTkxNzE0OTEzMjI0MS9zdXRhdHMvZXllX2NpdGFtZ2luZS9tb2MucmV0dGl3dC8vOnNwdHRo'
+        }
+        console.log(easterEgg);
     }
 
 })

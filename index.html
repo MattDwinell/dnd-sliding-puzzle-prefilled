@@ -11,14 +11,8 @@
 </head>
 <body>
     <div class="header-bar">
-        <h3> Turn your Picture Into A Sliding Tile Game!</h3>
-        <p>Simply choose the complexity of the puzzle and then upload your picture below to play! </p> 
-        <input name = 'size' label = '3x3' type = 'radio' value = '3'>
-        <label for = '3'>three by three</label>
-        <input name = 'size' label = '5x5' type = 'radio' value = '5' checked='true' >
-        <label for = '5'>five by five</label>
-        <input id='input' type='file' value ='upload image file'>
-
+        <h3 id= 'main-banner'> The sands shift, revealing a mismatched image</h3>
+        <p> </p> 
     </div>
 
 
@@ -32,11 +26,8 @@
     <div id='game-win'>
         <div>
             <span class='close-btn'>X</span>
-        <h4> You Solved the puzzle! Good job!</h4>
-        <p> For more information about sliding puzzles, feel free to check out:</p>
-        <a href="https://en.wikipedia.org/wiki/15_puzzle"> Wikipedia Entry on the 15 puzzle  </a><br>
-        <a href= "https://www.geeksforgeeks.org/check-instance-8-puzzle-solvable/"> How to find out if A sliding puzzle is able to be solved </a>
-        <p> To play again, close this message.</p>
+        <h4 id='popup-header'>As the last tile slides into place, you hear a click. There's a sound of stone grinding within the mechanism.</h4>
+        <p id='popup-additional' > The picture blocks pull away to reveal...</p>
     </div>
     </div>
 
