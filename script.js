@@ -15,35 +15,14 @@ $(function () {
     let currTiles = [];
     let goalTiles = [];
     let currFiveTiles = [];
-    let testing = true;
+    let testing = false;
 
 
 
     let input = document.getElementById('input');
     let image = document.getElementById('testimg');
-    // input.addEventListener('change', function () {
 
-
-    //     if (input.files && input.files[0]) {
-    //         var reader = new FileReader();
-
-    //         reader.readAsDataURL(input.files[0]);
-    //         reader.onload = function () {
-    //             //    console.log(reader.result);
-    //             image.src = reader.result;
-    //             image.onload = function () {
-    //                 let tileSize = $('input[name="size"]:checked').val();
-    //                 if(tileSize == '3') makeNine(image.src);
-    //                 else if(tileSize == '5') makeTwentyFive(image.src);
-
-    //                 input.style.visibility = 'hidden';
-                   
-                    
-    //             }
-    //         }
-    //     }
-    // })
-if(!gameNineWon)  makeNine('./assets/images/illuminati_eye.jpg');
+if(!gameNineWon)  makeNine('./assets/images/stone_golem.jpeg');
 else(makeTwentyFive);
 
 
@@ -290,7 +269,7 @@ else(makeTwentyFive);
         $('.close-btn').hide();
         $('#main-banner').text('An empty vault space, already explored');
         $("#popup-additional").html('Unfortunately there is nothing obvious in the space within. You may want to <u>Console</u> yourselves with getting out alive. Perhaps <u>log</u> it as a good effort in your adventuring journals.')
-        console.log('game won.')
+        console.log('The search deepens.')
         $("#img-frame").empty();
         $('#tile-frame').empty();
         $('#game-win').show();
